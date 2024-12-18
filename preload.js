@@ -8,23 +8,52 @@ let isRunning = false;
 const nameBox = document.getElementById("name-box");
 const startBtn = document.getElementById("start-btn");
 const confirmBtn = document.getElementById("confirm-btn");
-
+let largeName = null; // 保存放大的名字元素
 // Start button logic
 startBtn.addEventListener("click", () => {
+    // 如果放大名字已经显示，移除它并恢复文本框
+    if (largeName) {
+        document.body.removeChild(largeName);
+        largeName = null;
+        nameBox.style.display = "block";
+    }
+
     if (isRunning) return; // Prevent multiple intervals
     isRunning = true;
 
     intervalId = setInterval(() => {
         const randomName = names[Math.floor(Math.random() * names.length)];
         nameBox.textContent = randomName;
-    }, 100); // Update every 100ms
+    }, 200); // Update every 100ms
 });
 
 // Confirm button logic
 confirmBtn.addEventListener("click", () => {
+
     if (intervalId) {
         clearInterval(intervalId);
         intervalId = null;
         isRunning = false;
     }
+
+    // 移除已有的放大名字元素（如果存在）
+    if (largeName) {
+        document.body.removeChild(largeName);
+        largeName = null;
+    }
+    const selectedName = nameBox.textContent;
+    nameBox.style.display = "none"; // Hide the name box
+
+    // Create a new element for the enlarged name
+    largeName = document.createElement("div");
+    largeName.textContent = selectedName;
+    largeName.style.position = "absolute";
+    largeName.style.top = "50%";
+    largeName.style.left = "50%";
+    largeName.style.transform = "translate(-50%, -50%)";
+    largeName.style.fontSize = "64px";
+    largeName.style.fontWeight = "bold";
+    largeName.style.textAlign = "center";
+
+    document.body.appendChild(largeName);
 });
