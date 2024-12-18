@@ -24,7 +24,7 @@ startBtn.addEventListener("click", () => {
     intervalId = setInterval(() => {
         const randomName = names[Math.floor(Math.random() * names.length)];
         nameBox.textContent = randomName;
-    }, 200); // Update every 100ms
+    }, 100); // Update every 100ms
 });
 
 // Confirm button logic
